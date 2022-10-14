@@ -10,18 +10,11 @@ import Foundation
 enum FindCustomer: Error{
     case wrongField
 }
-protocol Function1{
-    associatedtype A1
-    associatedtype B
-    
-    func call(customer: A1)-> B
-}
 
 class Customer{
     
     var allCustomers = [Customer]()
     var id = 0
-    
     var name = ""
     var address = ""
     var state = ""
@@ -29,77 +22,62 @@ class Customer{
     var domain = ""
     var enabled = true
     
+    typealias genericFunc<T,G> = (T)->G
+    
     init(){}
     
-    class CustomerName: Function1 {
-        typealias A1 = Customer
-        typealias B = String
-
-        func call(customer: Customer)-> String{
-            return customer.name
-        }
-    }
-    class CustomerAddress: Function1 {
-        typealias A1 = Customer
-        typealias B = String
-
-        func call(customer: Customer)-> String{
-            return customer.address
-        }
-    }
-    
-    class CustomerState: Function1 {
-        typealias A1 = Customer
-        typealias B = String
-
-        func call(customer: Customer)-> String{
-            return customer.state
-        }
-    }
-    class CustomerAsCustomer: Function1 {
-        typealias A1 = Customer
-        typealias B = Customer
-
-        func call(customer: Customer)-> Customer{
-            return customer
-        }
-    }
-    class CustomerDomain: Function1 {
-        typealias A1 = Customer
-        typealias B = String
-
-        func call(customer: Customer)-> String{
+    func getEnabledCustomerPrimaryContacts() throws -> [String]{
+        let function: genericFunc<Customer,String> = { customer in
             return customer.domain
         }
+        return try getEnabledCustomerField(function: function)
     }
-    func getEnabledCustomers() throws -> [Customer]{
-        return try getEnabledCustomerField(functionProtocol: CustomerAsCustomer())
-    }
-    func getEnabledCustomerPrimaryContacts() throws -> [String]{
-        return try getEnabledCustomerField(functionProtocol: CustomerDomain())
-    }
-    
+
     func getEnabledCustomerStates() throws -> [String]{
-        return try getEnabledCustomerField(functionProtocol: CustomerState())
+        let function: genericFunc<Customer,String> = { customer in
+            return customer.state
+        }
+        return try getEnabledCustomerField(function: function)
     }
 
     func getEnabledCustomerNames() throws -> [String]{
-        return try getEnabledCustomerField(functionProtocol: CustomerName())
-    }
-
-    func getEnabledCustomerAdresses() throws -> [String]{
-        return try getEnabledCustomerField(functionProtocol: CustomerAddress())
+        let function: genericFunc<Customer,String> = { customer in
+            return customer.name
+        }
+        return try getEnabledCustomerField(function: function)
     }
     
-    // loops with a certain condition, this condition is injected from the begining
-    func getEnabledCustomerField<T: Function1>(functionProtocol: T)throws -> [T.B]{
-        var outList = [T.B]()
+    func getEnabledCustomerAdresses() throws -> [String]{
+        let function: genericFunc<Customer,String> = { customer in
+            return customer.address
+        }
+        return try getEnabledCustomerField(function: function)
+    }
+    
+    func customerAsCustomer() throws -> [Customer]{
+        let function: genericFunc<Customer,Customer> = { customer in
+            return customer
+        }
+        return try getEnabledCustomerField(function: function)
+    }
+    
+    func getEnabledCustomerField<T,G>(function: genericFunc<T,G>)throws -> [G]{
+        var outList = [G]()
         
         for customer in allCustomers {
             if customer.enabled{
-                outList.append(functionProtocol.call(customer: customer as! T.A1))
+                outList.append(function(customer as! T))
             }
         }
         return outList
     }
+    
+
+//
+//    func getEnabledCustomerSomeoneEmail(someone: String){
+////        let customerSomeoneEmail = CustomerSomeoneEmail()
+////        customerSomeoneEmail.someone = someone
+//        return try getEnabledCustomerField(functionProtocol: CustomerSomeoneEmail())
+//    }
+
 }

@@ -13,7 +13,7 @@ class CutomerModelTests: XCTestCase {
     var sut: Customer!
     
     override func setUpWithError() throws {
-    sut = Customer()
+        sut = Customer()
     
     }
 
@@ -24,15 +24,13 @@ class CutomerModelTests: XCTestCase {
         // given
         let customer1 = Customer(); customer1.enabled = true; customer1.name = "Mido"
         let customer2 = Customer(); customer2.enabled = false; customer2.name = "not mido"
-
-        let customerName = Customer.CustomerName()
         
         // when
         sut.allCustomers.append(customer1)
         sut.allCustomers.append(customer2)
         
         // then
-        let enabledName = try sut.getEnabledCustomerField(functionProtocol: customerName)[0]
+        let enabledName = try sut.getEnabledCustomerNames()[0]
         XCTAssertEqual(sut.allCustomers[0].name, enabledName)
         
     }
