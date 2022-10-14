@@ -10,6 +10,12 @@ import Foundation
 enum FindCustomer: Error{
     case wrongField
 }
+protocol Function1{
+    associatedtype A1
+    associatedtype B
+    
+    func call(customer: A1)-> B
+}
 
 class Customer{
     
@@ -25,64 +31,75 @@ class Customer{
     
     init(){}
     
-    func getEnabledCustomerField(field: String)throws -> [String]{
-        var outList = [String]()
+    class CustomerName: Function1 {
+        typealias A1 = Customer
+        typealias B = String
+
+        func call(customer: Customer)-> String{
+            return customer.name
+        }
+    }
+    class CustomerAddress: Function1 {
+        typealias A1 = Customer
+        typealias B = String
+
+        func call(customer: Customer)-> String{
+            return customer.address
+        }
+    }
+    
+    class CustomerState: Function1 {
+        typealias A1 = Customer
+        typealias B = String
+
+        func call(customer: Customer)-> String{
+            return customer.state
+        }
+    }
+    class CustomerAsCustomer: Function1 {
+        typealias A1 = Customer
+        typealias B = Customer
+
+        func call(customer: Customer)-> Customer{
+            return customer
+        }
+    }
+    class CustomerDomain: Function1 {
+        typealias A1 = Customer
+        typealias B = String
+
+        func call(customer: Customer)-> String{
+            return customer.domain
+        }
+    }
+    func getEnabledCustomers() throws -> [Customer]{
+        return try getEnabledCustomerField(functionProtocol: CustomerAsCustomer())
+    }
+    func getEnabledCustomerPrimaryContacts() throws -> [String]{
+        return try getEnabledCustomerField(functionProtocol: CustomerDomain())
+    }
+    
+    func getEnabledCustomerStates() throws -> [String]{
+        return try getEnabledCustomerField(functionProtocol: CustomerState())
+    }
+
+    func getEnabledCustomerNames() throws -> [String]{
+        return try getEnabledCustomerField(functionProtocol: CustomerName())
+    }
+
+    func getEnabledCustomerAdresses() throws -> [String]{
+        return try getEnabledCustomerField(functionProtocol: CustomerAddress())
+    }
+    
+    // loops with a certain condition, this condition is injected from the begining
+    func getEnabledCustomerField<T: Function1>(functionProtocol: T)throws -> [T.B]{
+        var outList = [T.B]()
         
         for customer in allCustomers {
             if customer.enabled{
-                if(field == "name") {
-                    outList.append(customer.name);
-                }else if(field == "state") {
-                    outList.append(customer.state);
-                } else if(field == "primaryContact") {
-                    outList.append(customer.primaryContact);
-                } else if(field == "domain") {
-                    outList.append(customer.domain);
-                } else if(field == "address") {
-                    outList.append(customer.address);
-                }else{
-                    throw FindCustomer.wrongField
-                }
+                outList.append(functionProtocol.call(customer: customer as! T.A1))
             }
         }
         return outList
     }
-    
-    
-    
-    
-    
-    func getEnabledCustomerNames()-> [String]{
-        var outList = [String]()
-        
-        for customer in allCustomers {
-            if customer.enabled{
-                outList.append(customer.name)
-            }
-        }
-        return outList
-    }
-    
-    func getEnabledCustomerStates()-> [String]{
-        var outList = [String]()
-        
-        for customer in allCustomers {
-            if customer.enabled{
-                outList.append(customer.state)
-            }
-        }
-        return outList
-    }
-    
-    func getEnabledCustomerPrimaryContacts()-> [String]{
-        var outList = [String]()
-        
-        for customer in allCustomers {
-            if customer.enabled{
-                outList.append(customer.domain)
-            }
-        }
-        return outList
-    }
-    
 }

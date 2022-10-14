@@ -13,8 +13,8 @@
 		EF03881A28F708BF00F029A2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF03881828F708BF00F029A2 /* Main.storyboard */; };
 		EF03881C28F708C000F029A2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EF03881B28F708C000F029A2 /* Assets.xcassets */; };
 		EF03881F28F708C000F029A2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF03881D28F708C000F029A2 /* LaunchScreen.storyboard */; };
-		EF03882A28F708C000F029A2 /* becoming_functionalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF03882928F708C000F029A2 /* becoming_functionalTests.swift */; };
 		EF03884328F70C3300F029A2 /* Customer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF03884228F70C3300F029A2 /* Customer.swift */; };
+		EF635FB028F94E4200272AF5 /* CutomerModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF635FAF28F94E4200272AF5 /* CutomerModelTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,9 +44,9 @@
 		EF03881E28F708C000F029A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EF03882028F708C000F029A2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EF03882528F708C000F029A2 /* becoming-functionalTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "becoming-functionalTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		EF03882928F708C000F029A2 /* becoming_functionalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = becoming_functionalTests.swift; sourceTree = "<group>"; };
 		EF03882F28F708C000F029A2 /* becoming-functionalUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "becoming-functionalUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF03884228F70C3300F029A2 /* Customer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Customer.swift; sourceTree = "<group>"; };
+		EF635FAF28F94E4200272AF5 /* CutomerModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CutomerModelTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,7 +111,7 @@
 		EF03882828F708C000F029A2 /* becoming-functionalTests */ = {
 			isa = PBXGroup;
 			children = (
-				EF03882928F708C000F029A2 /* becoming_functionalTests.swift */,
+				EF635FAF28F94E4200272AF5 /* CutomerModelTests.swift */,
 			);
 			path = "becoming-functionalTests";
 			sourceTree = "<group>";
@@ -258,7 +258,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EF03882A28F708C000F029A2 /* becoming_functionalTests.swift in Sources */,
+				EF635FB028F94E4200272AF5 /* CutomerModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
