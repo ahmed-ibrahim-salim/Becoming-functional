@@ -10,8 +10,13 @@ import Foundation
 enum FindCustomer: Error{
     case wrongField
 }
+protocol Function1{
+    // change return type
+    typealias genericFunc<G> = (Customer)->G
+    
+}
 
-class Customer{
+class Customer: Function1{
     
     var allCustomers = [Customer]()
     var id = 0
@@ -22,62 +27,66 @@ class Customer{
     var domain = ""
     var enabled = true
     
-    typealias genericFunc<T,G> = (T)->G
+    var enabledCustomers: genericFunc<Bool>  = {customer in
+        return customer.enabled == true
+    }
+    
+    var disabledCustomers: genericFunc<Bool>  = {customer in
+        return customer.enabled == false
+    }
     
     init(){}
     
     func getEnabledCustomerPrimaryContacts() throws -> [String]{
-        let function: genericFunc<Customer,String> = { customer in
+        let function: genericFunc<String> = { customer in
             return customer.domain
         }
-        return try getEnabledCustomerField(function: function)
+        return getField(test: enabledCustomers, function: function)
     }
 
-    func getEnabledCustomerStates() throws -> [String]{
-        let function: genericFunc<Customer,String> = { customer in
+    func getEnabledCustomerStates() -> [String]{
+        let function: genericFunc<String> = { customer in
             return customer.state
         }
-        return try getEnabledCustomerField(function: function)
+        return getField(test: enabledCustomers,function: function)
     }
 
-    func getEnabledCustomerNames() throws -> [String]{
-        let function: genericFunc<Customer,String> = { customer in
+    func getEnabledCustomerNames() -> [String]{
+        let function: genericFunc<String> = { customer in
             return customer.name
         }
-        return try getEnabledCustomerField(function: function)
+        return getField(test: enabledCustomers,function: function)
     }
     
-    func getEnabledCustomerAdresses() throws -> [String]{
-        let function: genericFunc<Customer,String> = { customer in
+    func getEnabledCustomerAdresses() -> [String]{
+        let function: genericFunc<String> = { customer in
             return customer.address
         }
-        return try getEnabledCustomerField(function: function)
+        return getField(test: enabledCustomers,function: function)
     }
     
-    func customerAsCustomer() throws -> [Customer]{
-        let function: genericFunc<Customer,Customer> = { customer in
+    func customerAsCustomer() -> [Customer]{
+        let function: genericFunc<Customer> = { customer in
             return customer
         }
-        return try getEnabledCustomerField(function: function)
+        return getField(test: enabledCustomers,function: function)
     }
     
-    func getEnabledCustomerField<T,G>(function: genericFunc<T,G>)throws -> [G]{
+    func getEnabledCustomerSomeoneEmail(someone: String) throws ->[String]{
+        let function: genericFunc<String> =  { customer in
+            return someone + customer.domain
+        }
+        return getField(test: enabledCustomers,function: function)
+    }
+        
+    func getField<G>(test: genericFunc<Bool>, function: genericFunc<G>)->[G]{
         var outList = [G]()
         
         for customer in allCustomers {
-            if customer.enabled{
-                outList.append(function(customer as! T))
+            if test(customer){
+                outList.append(function(customer))
             }
         }
         return outList
     }
-    
-
-//
-//    func getEnabledCustomerSomeoneEmail(someone: String){
-////        let customerSomeoneEmail = CustomerSomeoneEmail()
-////        customerSomeoneEmail.someone = someone
-//        return try getEnabledCustomerField(functionProtocol: CustomerSomeoneEmail())
-//    }
-
 }

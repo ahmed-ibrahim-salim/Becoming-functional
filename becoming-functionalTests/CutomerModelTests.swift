@@ -20,17 +20,17 @@ class CutomerModelTests: XCTestCase {
     override func tearDownWithError() throws {
     }
     
-    func test_getEnabledCustomerNames_ReturnsEnabledNames() throws{
+    func test_getEnabledCustomerNames_ReturnsEnabledNames(){
         // given
         let customer1 = Customer(); customer1.enabled = true; customer1.name = "Mido"
-        let customer2 = Customer(); customer2.enabled = false; customer2.name = "not mido"
+        let customer2 = Customer(); customer2.enabled = false; customer2.name = "Luca"
         
         // when
         sut.allCustomers.append(customer1)
         sut.allCustomers.append(customer2)
         
         // then
-        let enabledName = try sut.getEnabledCustomerNames()[0]
+        let enabledName = sut.getEnabledCustomerNames()[0]
         XCTAssertEqual(sut.allCustomers[0].name, enabledName)
         
     }
