@@ -13,12 +13,11 @@ enum FindCustomer: Error{
 protocol Function1{
     // change return type
     typealias genericFunc<G> = (Customer)->G
-    
 }
 
 class Customer: Function1{
     
-    var allCustomers = [Customer]()
+    static var allCustomers = [Customer]()
     var id = 0
     var name = ""
     var address = ""
@@ -26,6 +25,7 @@ class Customer: Function1{
     var primaryContact = ""
     var domain = ""
     var enabled = true
+    var contract: Contract
     
     var enabledCustomers: genericFunc<Bool>  = {customer in
         return customer.enabled == true
@@ -35,7 +35,9 @@ class Customer: Function1{
         return customer.enabled == false
     }
     
-    init(){}
+    init(contract: Contract){
+        self.contract = contract
+    }
     
     func getEnabledCustomerPrimaryContacts() throws -> [String]{
         let function: genericFunc<String> = { customer in
@@ -78,11 +80,28 @@ class Customer: Function1{
         }
         return getField(test: enabledCustomers,function: function)
     }
+    
+    static func filter(inlist: [Customer],test: (Customer)->Bool)->[Customer]{
+        var outlist = [Customer]()
+        for customer in inlist{
+            if test(customer){
+                outlist.append(customer)
+            }
+        }
+        return outlist
+    }
+    
+    static func getCustomerById(inlist: [Customer],customerId: Int)->[Customer]{
+        let getCustomerByIdTest: (Customer)->Bool = {customer in
+            return customer.id == customerId
+        }
+        return Customer.filter(inlist: inlist,test: getCustomerByIdTest)
+    }
         
     func getField<G>(test: genericFunc<Bool>, function: genericFunc<G>)->[G]{
         var outList = [G]()
         
-        for customer in allCustomers {
+        for customer in Customer.filter(inlist: Customer.allCustomers,test: test) {
             if test(customer){
                 outList.append(function(customer))
             }
