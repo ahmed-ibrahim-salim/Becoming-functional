@@ -81,7 +81,7 @@ class Customer: Function1{
         return getField(test: enabledCustomers,function: function)
     }
     
-    static func filter(inlist: [Customer],test: (Customer)->Bool)->[Customer]{
+    static func filter(inlist: [Customer], test: (Customer)->Bool)->[Customer]{
         var outlist = [Customer]()
         for customer in inlist{
             if test(customer){
@@ -91,11 +91,11 @@ class Customer: Function1{
         return outlist
     }
     
-    static func getCustomerById(inlist: [Customer],customerId: Int)->[Customer]{
-        let getCustomerByIdTest: (Customer)->Bool = {customer in
+    static func getCustomerById(inlist: [Customer], customerId: Int)->[Customer]{
+        let getCustomerByIdTest: (Customer)->Bool = { customer in
             return customer.id == customerId
         }
-        return Customer.filter(inlist: inlist,test: getCustomerByIdTest)
+        return Customer.filter(inlist: inlist, test: getCustomerByIdTest)
     }
         
     func getField<G>(test: genericFunc<Bool>, function: genericFunc<G>)->[G]{

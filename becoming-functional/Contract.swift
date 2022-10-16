@@ -21,7 +21,7 @@ class Contract {
     }
             
     func setContractEnabledForCustomer(customerId: Int) {
-        for customer in Customer.getCustomerById(inlist: Customer.allCustomers,customerId: customerId) {
+        for customer in Customer.getCustomerById(inlist: Customer.allCustomers, customerId: customerId) {
             customer.contract.enabled = true
         }
     }
