@@ -10,13 +10,9 @@ import Foundation
 enum FindCustomer: Error{
     case wrongField
 }
-protocol Function1{
-    // change return type
-    typealias genericFunc<G> = (Customer)->G
-}
 
-class Customer: Function1{
-    
+class Customer{
+
     static var allCustomers = [Customer]()
     var id = 0
     var name = ""
@@ -27,85 +23,100 @@ class Customer: Function1{
     var enabled = true
     var contract: Contract
     
-    var enabledCustomers: genericFunc<Bool>  = {customer in
-        return customer.enabled == true
+    var enabledCustomers: (Customer)->Bool  = {customer in
+        customer.enabled == true
     }
     
-    var disabledCustomers: genericFunc<Bool>  = {customer in
-        return customer.enabled == false
+    var disabledCustomers: (Customer)->Bool  = {customer in
+        customer.enabled == false
     }
     
     init(contract: Contract){
         self.contract = contract
     }
     
+    func setCustomerId(customerID: Int)->Customer{
+        self.id = customerID
+        return self
+    }
+    
+    func setName(name: String)->Customer{
+        self.name = name
+        return self
+    }
+    
+    func setState(state: String)->Customer{
+        self.state = state
+        return self
+    }
+    func setDomain(domain: String)->Customer{
+        self.domain = domain
+        return self
+    }
+    func setEnabled(enabled: Bool)->Customer{
+        self.enabled = enabled
+        return self
+    }
+    func setContract(contract: Contract)->Customer{
+        self.contract = contract
+        return self
+    }
+    
+    func getDisabledCustomerNames()->[String]{
+        Customer.allCustomers.filter(disabledCustomers).map({customer in
+            customer.name
+        })
+    }
+    
     func getEnabledCustomerPrimaryContacts() throws -> [String]{
-        let function: genericFunc<String> = { customer in
-            return customer.domain
-        }
-        return getField(test: enabledCustomers, function: function)
+        Customer.allCustomers.filter(enabledCustomers).map({customer in
+            customer.domain
+        })
     }
 
     func getEnabledCustomerStates() -> [String]{
-        let function: genericFunc<String> = { customer in
-            return customer.state
-        }
-        return getField(test: enabledCustomers,function: function)
+        Customer.allCustomers.filter(enabledCustomers).map({customer in
+            customer.state
+        })
     }
 
     func getEnabledCustomerNames() -> [String]{
-        let function: genericFunc<String> = { customer in
-            return customer.name
-        }
-        return getField(test: enabledCustomers,function: function)
+        Customer.allCustomers.filter(enabledCustomers).map({customer in
+            customer.name
+        })
     }
     
     func getEnabledCustomerAdresses() -> [String]{
-        let function: genericFunc<String> = { customer in
-            return customer.address
-        }
-        return getField(test: enabledCustomers,function: function)
+        Customer.allCustomers.filter(enabledCustomers).map({customer in
+            customer.address
+        })
     }
     
-    func customerAsCustomer() -> [Customer]{
-        let function: genericFunc<Customer> = { customer in
-            return customer
-        }
-        return getField(test: enabledCustomers,function: function)
+    func customerEnabledAsCustomer() -> [Customer]{
+        Customer.allCustomers.filter(enabledCustomers)
     }
     
-    func getEnabledCustomerSomeoneEmail(someone: String) throws ->[String]{
-        let function: genericFunc<String> =  { customer in
-            return someone + customer.domain
-        }
-        return getField(test: enabledCustomers,function: function)
-    }
-    
-    static func filter(inlist: [Customer], test: (Customer)->Bool)->[Customer]{
-        var outlist = [Customer]()
-        for customer in inlist{
-            if test(customer){
-                outlist.append(customer)
-            }
-        }
-        return outlist
+    func getEnabledCustomerSomeoneEmail(someone: String)->[String]{
+
+        Customer.allCustomers.filter(enabledCustomers).map({customer in
+            someone + "@" + customer.domain
+        })
     }
     
     static func getCustomerById(inlist: [Customer], customerId: Int)->[Customer]{
-        let getCustomerByIdTest: (Customer)->Bool = { customer in
-            return customer.id == customerId
-        }
-        return Customer.filter(inlist: inlist, test: getCustomerByIdTest)
+        Customer.allCustomers.filter({customer in
+            customer.id == customerId
+        })
     }
         
-    func getField<G>(test: genericFunc<Bool>, function: genericFunc<G>)->[G]{
-        var outList = [G]()
-        
-        for customer in Customer.filter(inlist: Customer.allCustomers,test: test) {
-            if test(customer){
-                outList.append(function(customer))
-            }
-        }
-        return outList
-    }
+//    func getField<G>(test: genericFunc<Bool>, function: genericFunc<G>)->[G]{
+//        var outList = [G]()
+//
+//        for customer in FunctionalConcepts.filter(inlist: Customer.allCustomers,test: test) {
+//            if test(customer){
+//                outList.append(function(customer))
+//            }
+//        }
+//        return outList
+//    }
 }

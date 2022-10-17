@@ -19,10 +19,29 @@ class Contract {
 //        this.end_date.setTimeInMillis(this.begin_date.getTimeInMillis())
 //        this.end_date.add(Calendar.YEAR, 2);
     }
-            
-    func setContractEnabledForCustomer(customerId: Int) {
-        for customer in Customer.getCustomerById(inlist: Customer.allCustomers, customerId: customerId) {
-            customer.contract.enabled = true
-        }
+    
+    func setBeginDate(beginDate: String)->Contract{
+        self.begin_date = beginDate
+        return self
     }
+    func setEndDate(endDate: String)->Contract{
+        self.end_date = endDate
+        return self
+    }
+    func setEnabled(enabled: Bool)->Contract{
+        self.enabled = enabled
+        return self
+    }
+    
+    func setContractForCustomer(customerId: Int, status: Bool){
+        
+        Customer.allCustomers.filter({ customer in
+            customer.id == customerId
+        }).map({ customer in
+            customer.contract.setEnabled(enabled: status)
+        }).forEach({ contract in
+            print(contract)
+        })
+    }
+    
 }

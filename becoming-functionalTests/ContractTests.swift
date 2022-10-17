@@ -19,6 +19,7 @@ class ContractTests: XCTestCase {
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
+    
     func test_setContractEnabledForCustomer_EnablesContract(){
         // given
         var customer1 = Customer(contract: sut)
@@ -27,12 +28,10 @@ class ContractTests: XCTestCase {
         Customer.allCustomers.append(customer1)
 
         // when
-        sut.setContractEnabledForCustomer(customerId: 0)
+        sut.setContractForCustomer(customerId: 0, status: true)
         
         // then
         XCTAssertTrue(customer1.contract.enabled)
-        
-        
     }
 
 
