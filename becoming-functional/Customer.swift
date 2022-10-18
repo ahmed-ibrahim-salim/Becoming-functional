@@ -22,6 +22,7 @@ class Customer{
     var domain = ""
     var enabled = true
     var contract: Contract
+    var contacts: [Contact] = [Contact]()
     
     var enabledCustomers: (Customer)->Bool  = {customer in
         customer.enabled == true
@@ -60,6 +61,22 @@ class Customer{
     func setContract(contract: Contract)->Customer{
         self.contract = contract
         return self
+    }
+    
+    func eachEnabledContact(closure: (Contact)->Void){
+        Customer.allCustomers.filter({customer in
+            customer.enabled && customer.contract.enabled
+        }).forEach({customer in
+            customer.contacts.filter({contact in
+                contact.enabled == true
+            }).forEach(closure)
+        })
+    }
+    
+    func sendEnabledCustomersEmails(msg: String){
+        eachEnabledContact(closure: {contact in
+            contact.sendEmail(msg)
+        })
     }
     
     func getDisabledCustomerNames()->[String]{

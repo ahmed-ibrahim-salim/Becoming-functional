@@ -15,9 +15,9 @@
 		EF03881F28F708C000F029A2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF03881D28F708C000F029A2 /* LaunchScreen.storyboard */; };
 		EF03884328F70C3300F029A2 /* Customer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF03884228F70C3300F029A2 /* Customer.swift */; };
 		EF635FB028F94E4200272AF5 /* CustomerModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF635FAF28F94E4200272AF5 /* CustomerModelTests.swift */; };
-		EF710DA628FD6E5000608B0B /* FunctionalConcepts.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF710DA528FD6E5000608B0B /* FunctionalConcepts.swift */; };
 		EF77D85928FACF1C00B9F521 /* Contract.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF77D85828FACF1C00B9F521 /* Contract.swift */; };
 		EF77D85D28FAE81A00B9F521 /* ContractTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF77D85C28FAE81A00B9F521 /* ContractTests.swift */; };
+		EFE41D1728FEB1EF002B8E34 /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE41D1628FEB1EF002B8E34 /* Contact.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,9 +50,9 @@
 		EF03882F28F708C000F029A2 /* becoming-functionalUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "becoming-functionalUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF03884228F70C3300F029A2 /* Customer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Customer.swift; sourceTree = "<group>"; };
 		EF635FAF28F94E4200272AF5 /* CustomerModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerModelTests.swift; sourceTree = "<group>"; };
-		EF710DA528FD6E5000608B0B /* FunctionalConcepts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunctionalConcepts.swift; sourceTree = "<group>"; };
 		EF77D85828FACF1C00B9F521 /* Contract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contract.swift; sourceTree = "<group>"; };
 		EF77D85C28FAE81A00B9F521 /* ContractTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractTests.swift; sourceTree = "<group>"; };
+		EFE41D1628FEB1EF002B8E34 /* Contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,7 +111,7 @@
 				EF03882028F708C000F029A2 /* Info.plist */,
 				EF03884228F70C3300F029A2 /* Customer.swift */,
 				EF77D85828FACF1C00B9F521 /* Contract.swift */,
-				EF710DA528FD6E5000608B0B /* FunctionalConcepts.swift */,
+				EFE41D1628FEB1EF002B8E34 /* Contact.swift */,
 			);
 			path = "becoming-functional";
 			sourceTree = "<group>";
@@ -256,8 +256,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EFE41D1728FEB1EF002B8E34 /* Contact.swift in Sources */,
 				EF03881728F708BF00F029A2 /* ViewController.swift in Sources */,
-				EF710DA628FD6E5000608B0B /* FunctionalConcepts.swift in Sources */,
 				EF03881328F708BF00F029A2 /* AppDelegate.swift in Sources */,
 				EF03881528F708BF00F029A2 /* SceneDelegate.swift in Sources */,
 				EF77D85928FACF1C00B9F521 /* Contract.swift in Sources */,
