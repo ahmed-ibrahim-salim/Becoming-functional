@@ -9,39 +9,20 @@ import Foundation
 
 class Contract {
     
-    var begin_date: String
-    var end_date: String
-    var enabled = false
-        
-    init(begin_date: String) {
+    let begin_date: String
+    let end_date: String
+    let enabled: Bool
+    
+    init(begin_date: String, end_date: String,enabled: Bool = true) {
         self.begin_date = begin_date
         self.end_date = self.begin_date
-//        this.end_date.setTimeInMillis(this.begin_date.getTimeInMillis())
-//        this.end_date.add(Calendar.YEAR, 2);
-    }
-    
-    func setBeginDate(beginDate: String)->Contract{
-        self.begin_date = beginDate
-        return self
-    }
-    func setEndDate(endDate: String)->Contract{
-        self.end_date = endDate
-        return self
-    }
-    func setEnabled(enabled: Bool)->Contract{
         self.enabled = enabled
-        return self
     }
     
-    func setContractForCustomer(customerId: Int, status: Bool){
+    func setContractForCustomerList(ids: [Int], status: Bool)->[Customer]{
         
-        Customer.allCustomers.filter({ customer in
-            customer.id == customerId
-        }).map({ customer in
-            customer.contract.setEnabled(enabled: status)
-        }).forEach({ contract in
-            print(contract)
+        Customer.updateContractForCustomerList(ids: ids, closure: { contract in
+            Contract(begin_date: contract.begin_date, end_date: contract.end_date, enabled: status)
         })
     }
-    
 }

@@ -12,57 +12,34 @@ enum FindCustomer: Error{
 }
 
 class Customer{
-
-    static var allCustomers = [Customer]()
-    var id = 0
-    var name = ""
-    var address = ""
-    var state = ""
-    var primaryContact = ""
-    var domain = ""
-    var enabled = true
-    var contract: Contract
-    var contacts: [Contact] = [Contact]()
     
-    var enabledCustomers: (Customer)->Bool  = {customer in
+    static var allCustomers = [Customer]()
+    let id: Int
+    let name: String
+    let state: String
+    let domain: String
+    let enabled: Bool
+    let contract: Contract
+    let contacts: [Contact]
+    
+    let enabledCustomers: (Customer)->Bool  = {customer in
         customer.enabled == true
     }
     
-    var disabledCustomers: (Customer)->Bool  = {customer in
+    let disabledCustomers: (Customer)->Bool  = {customer in
         customer.enabled == false
     }
     
-    init(contract: Contract){
-        self.contract = contract
-    }
-    
-    func setCustomerId(customerID: Int)->Customer{
-        self.id = customerID
-        return self
-    }
-    
-    func setName(name: String)->Customer{
+    init(customer_id: Int = 0 , name: String = "", state: String = "", domain: String = "", enabled: Bool = true, contract: Contract, contacts: [Contact] = [Contact]()) {
+        self.id = customer_id
         self.name = name
-        return self
-    }
-    
-    func setState(state: String)->Customer{
         self.state = state
-        return self
-    }
-    func setDomain(domain: String)->Customer{
         self.domain = domain
-        return self
-    }
-    func setEnabled(enabled: Bool)->Customer{
         self.enabled = enabled
-        return self
-    }
-    func setContract(contract: Contract)->Customer{
         self.contract = contract
-        return self
+        self.contacts = contacts
     }
-    
+
     func eachEnabledContact(closure: (Contact)->Void){
         Customer.allCustomers.filter({customer in
             customer.enabled && customer.contract.enabled
@@ -90,22 +67,16 @@ class Customer{
             customer.domain
         })
     }
-
+    
     func getEnabledCustomerStates() -> [String]{
         Customer.allCustomers.filter(enabledCustomers).map({customer in
             customer.state
         })
     }
-
+    
     func getEnabledCustomerNames() -> [String]{
         Customer.allCustomers.filter(enabledCustomers).map({customer in
             customer.name
-        })
-    }
-    
-    func getEnabledCustomerAdresses() -> [String]{
-        Customer.allCustomers.filter(enabledCustomers).map({customer in
-            customer.address
         })
     }
     
@@ -114,7 +85,7 @@ class Customer{
     }
     
     func getEnabledCustomerSomeoneEmail(someone: String)->[String]{
-
+        
         Customer.allCustomers.filter(enabledCustomers).map({customer in
             someone + "@" + customer.domain
         })
@@ -125,15 +96,33 @@ class Customer{
             customer.id == customerId
         })
     }
+    
+    static func updateContractForCustomerList(ids: [Int], closure: (Contract)-> Contract)->[Customer]{
+        // map returns new updated list without changing original list.
+        Customer.allCustomers.map({customer in
+            
+            if ids[customer.id] >= 0{
+                return Customer(customer_id: customer.id,
+                                name: customer.name,
+                                state: customer.state,
+                                domain: customer.domain,
+                                enabled: customer.enabled,
+                                contract: closure(customer.contract),
+                                contacts: customer.contacts)
+            }else{
+                return customer
+            }
+        })
         
-//    func getField<G>(test: genericFunc<Bool>, function: genericFunc<G>)->[G]{
-//        var outList = [G]()
-//
-//        for customer in FunctionalConcepts.filter(inlist: Customer.allCustomers,test: test) {
-//            if test(customer){
-//                outList.append(function(customer))
-//            }
-//        }
-//        return outList
-//    }
+    }
+    //    func getField<G>(test: genericFunc<Bool>, function: genericFunc<G>)->[G]{
+    //        let outList = [G]()
+    //
+    //        for customer in FunctionalConcepts.filter(inlist: Customer.allCustomers,test: test) {
+    //            if test(customer){
+    //                outList.append(function(customer))
+    //            }
+    //        }
+    //        return outList
+    //    }
 }
