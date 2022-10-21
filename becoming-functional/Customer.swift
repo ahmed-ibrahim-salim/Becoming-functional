@@ -13,11 +13,9 @@ enum FindCustomer: Error{
 
 class Customer{
     
-    static var allCustomers = [Customer]()
+    static let allCustomers = [Customer]()
     let id: Int
-    let name: String
-    let state: String
-    let domain: String
+    let name, state, domain: String
     let enabled: Bool
     let contract: Contract
     let contacts: [Contact]
@@ -99,30 +97,24 @@ class Customer{
     
     static func updateContractForCustomerList(ids: [Int], closure: (Contract)-> Contract)->[Customer]{
         // map returns new updated list without changing original list.
-        Customer.allCustomers.map({customer in
-            
+        updateCustomerByIdList(ids: ids, closure: { customer in
+            Customer(customer_id: customer.id,
+                            name: customer.name,
+                            state: customer.state,
+                            domain: customer.domain,
+                            enabled: customer.enabled,
+                            contract: closure(customer.contract),
+                            contacts: customer.contacts)
+        })
+    }
+    
+    static func updateCustomerByIdList(ids: [Int], closure: (Customer)->Customer)->[Customer]{
+        Customer.allCustomers.map({ customer in
             if ids[customer.id] >= 0{
-                return Customer(customer_id: customer.id,
-                                name: customer.name,
-                                state: customer.state,
-                                domain: customer.domain,
-                                enabled: customer.enabled,
-                                contract: closure(customer.contract),
-                                contacts: customer.contacts)
+                return closure(customer)
             }else{
                 return customer
             }
         })
-        
     }
-    //    func getField<G>(test: genericFunc<Bool>, function: genericFunc<G>)->[G]{
-    //        let outList = [G]()
-    //
-    //        for customer in FunctionalConcepts.filter(inlist: Customer.allCustomers,test: test) {
-    //            if test(customer){
-    //                outList.append(function(customer))
-    //            }
-    //        }
-    //        return outList
-    //    }
 }
