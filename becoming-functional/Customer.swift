@@ -13,7 +13,19 @@ enum FindCustomer: Error{
 
 class Customer{
     
-    static let allCustomers = [Customer]()
+    static let allCustomers: [Customer] = {
+        let customer1 = Customer(customer_id: 1, name: "andy", state: "h",
+                                 domain: "h", enabled: true, contract: Contract(begin_date: "2", end_date: "2", enabled: true),
+                                 contacts: [Contact(contact_id: 1, firstName: "mido", lastName: "elm", email: "", enabled: true)])
+        let customer2 = Customer(customer_id: 2, name: "ron", state: "h",
+                                 domain: "h", enabled: true, contract: Contract(begin_date: "2", end_date: "2", enabled: true),
+                                 contacts: [Contact(contact_id: 2, firstName: "gon", lastName: "her", email: "", enabled: false)])
+        let customer3 = Customer(customer_id: 2, name: "hermoine", state: "h",
+                                 domain: "h", enabled: true, contract: Contract(begin_date: "2", end_date: "2", enabled: true),
+                                 contacts: [Contact(contact_id: 3, firstName: "harry", lastName: "her", email: "", enabled: false)])
+        return [customer1, customer2, customer3]
+    }()
+    
     let id: Int
     let name, state, domain: String
     let enabled: Bool
@@ -116,6 +128,21 @@ class Customer{
         
     }
     //
+    func countEnabledCustomersWithNoEnabledContacts(customers: [Customer])->Int{
+        if customers.isEmpty{
+            return 0
+        }else{
+            
+            let addition = (customers[0].enabled && customers[0].contacts.contains(where: { $0.enabled == false}) ) ? 1 : 0
+            
+            return addition + countEnabledCustomersWithNoEnabledContacts(customers: Array(customers[1...]))
+            
+        }
+        
+//        Customer.allCustomers.filter({ customer in
+//            customer.enabled && customer.contacts.contains(where: { contact in contact.enabled == false})
+//        }).count
+    }
     static func updateCustomerByIdList(ids: [Int], closure: (Customer)->Customer)->[Customer]{
         Customer.allCustomers.map({ customer in
             if ids[customer.id] >= 0{

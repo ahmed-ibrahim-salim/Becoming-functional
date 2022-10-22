@@ -13,7 +13,7 @@ class Contract {
     let end_date: String
     let enabled: Bool
     
-    init(begin_date: String, end_date: String,enabled: Bool = true) {
+    init(begin_date: String, end_date: String,enabled: Bool = false) {
         self.begin_date = begin_date
         self.end_date = self.begin_date
         self.enabled = enabled

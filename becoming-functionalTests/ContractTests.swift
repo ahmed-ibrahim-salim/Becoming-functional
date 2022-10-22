@@ -12,7 +12,7 @@ class ContractTests: XCTestCase {
     var sut: Contract!
     
     override func setUpWithError() throws {
-        sut = Contract(begin_date: "2")
+        sut = Contract(begin_date: "2", end_date: "2")
         
     }
 
@@ -20,19 +20,7 @@ class ContractTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
     
-    func test_setContractEnabledForCustomer_EnablesContract(){
-        // given
-        var customer1 = Customer(contract: sut)
-        customer1.id = 0
-        customer1.contract.enabled = false
-        Customer.allCustomers.append(customer1)
-
-        // when
-        sut.setContractForCustomer(customerId: 0, status: true)
-        
-        // then
-        XCTAssertTrue(customer1.contract.enabled)
-    }
+   
 
 
 }
