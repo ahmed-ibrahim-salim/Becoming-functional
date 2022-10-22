@@ -22,28 +22,22 @@ class Contact {
         self.enabled = enabled
     }
     
-    func updateContactForCustomer(customerID: Int, contactId: Int, closure: (Contact)->Contact)-> [Customer]{
-        
+    func updateContactForCustomer(customerID: Int,
+                                  contactId: Int,
+                                  closure: (Contact)->Contact)-> [Customer]{
         Customer.updateCustomerByIdList(ids: [customerID], closure: { customer in
-            if customer.id == customerID{
-                return Customer(customer_id: customer.id,
-                                name: customer.name,
-                                state: customer.state,
-                                domain: customer.domain,
-                                enabled: customer.enabled,
-                                contract: customer.contract,
-                                contacts: customer.contacts.map({ contact in
-                    if contact.contact_id == contactId{
-                        return closure(contact)
-                    }else{
-                        return contact
-                    }
-                }))
-            }else{
-                return customer
-            }
-        })
-        
+            return Customer(customer_id: customer.id,
+                            name: customer.name, state: customer.state,
+                            domain: customer.domain, enabled: customer.enabled,
+                            contract: customer.contract,
+                            contacts: customer.contacts.map({ contact in
+                if contact.contact_id == contactId{
+                    return closure(contact)
+                }else{
+                    return contact
+                }})
+            )}
+        )
     }
     
     func sendEmail(_ msg: String){
